@@ -61,3 +61,5 @@ profiles:
   diaz.local:
     dotfiles:
     - f_zshrc
+    - d_kitty
+    - d_nvim
