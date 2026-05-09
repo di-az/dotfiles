@@ -42,6 +42,9 @@ dotfiles:
     src: bin/wallpaper
     dst: ~/.bin/wallpaper
     chmod: '755'
+  f_zshrc:
+    src: zshrc
+    dst: ~/.zshrc
 profiles:
   diaz:
     dotfiles:
@@ -55,3 +58,6 @@ profiles:
     - f_gitconfig
     - f_git-prompt.sh
     - f_wallpaper
+  diaz.local:
+    dotfiles:
+    - f_zshrc
