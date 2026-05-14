@@ -1,4 +1,4 @@
 require("diaz.set")
 require("diaz.keymap")
-require("diaz.packer")
+require("diaz.lazy")
 require("diaz.remap")

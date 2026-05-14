@@ -1,5 +1,5 @@
 ### FONT ###
-font_size 12.0
+font_size 14.0
 
 font_family      monospace
 bold_font        auto
@@ -12,33 +12,54 @@ bold_italic_font auto
 #bold_italic_font JetBrainsMono Nerd Font Mono Bold Italic
 
 
-tab_bar_min_tabs            1
+tab_bar_min_tabs            2
 tab_bar_edge                bottom
 tab_bar_style               powerline
-tab_powerline_style         slanted
+tab_powerline_style         round
 tab_title_template          {title}{' :{}:'.format(num_windows) if num_windows > 1 else ''}
 
+
+macos_option_as_alt left
+map opt+c send_text all \x1bc
+
+# macos_option_as_alt no
+# map alt+t new_tab
+# map alt+left send_text all \x1b\x62
+# map alt+right send_text all \x1b\x66
+
+# map alt+left  send_text all \x1b[1;9D
+# map alt+right send_text all \x1b[1;9C
 
 
 enable_audio_bell no
 
+dynamic_background_opacity no # Change opacity using keyboard shortcuts
+background_opacity 0.5
+background_blur 50
 
-background_opacity 0.7
 shell_integration enabled
 
 map ctrl+shift+f5 load_config_file
 map ctrl+shift+enter launch --cwd=current
 map ctrl+alt+enter new_window
+
+map ctrl+shift+r set_tab_title
+map ctrl+alt+t new_tab
+map ctrl+shift+t new_tab_with_cwd
+
+
 #map ctrl+shift+enter new_os_window_with_cwd
+allow_remote_control yes
+listen_on unix:/tmp/kitty
 
 
 # Create a new window splitting the space used by the existing one so that
 # the two windows are placed one above the other
-map f5 launch --location=hsplit
+map ctrl+f5 launch --location=hsplit
 
 # Create a new window splitting the space used by the existing one so that
 # the two windows are placed side by side
-map f6 launch --location=vsplit
+map ctrl+f6 launch --location=vsplit
 
 # Create a new window splitting the space used by the existing one so that
 # the two windows are placed side by side if the existing window is wide or
