@@ -30,9 +30,10 @@ vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.cursorline = true
 
+vim.g.mapleader = " "
 vim.opt.signcolumn = "yes"
 
-vim.g.mapleader = " "
+vim.opt.guicursor = "n-v-c:block," .. "i-ci-ve:ver25," .. "r-cr:hor20," .. "o:hor50,"
 
 --Mouse
 vim.opt.mouse = "a"
