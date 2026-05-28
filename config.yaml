@@ -45,6 +45,9 @@ dotfiles:
   f_zshrc:
     src: zshrc
     dst: ~/.zshrc
+  f_tmux.conf:
+    src: tmux.conf
+    dst: ~/.tmux.conf
 profiles:
   diaz:
     dotfiles:
@@ -63,3 +66,4 @@ profiles:
     - f_zshrc
     - d_kitty
     - d_nvim
+    - f_tmux.conf
