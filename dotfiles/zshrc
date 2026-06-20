@@ -33,6 +33,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Add go to PATH
 export PATH=$(go env GOPATH)/bin:$PATH
+export EDITOR='/Users/diaz/bin/nvim-macos-arm64-v0.11.5/bin/nvim'
 
 # Configuration for p10k prompt
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
