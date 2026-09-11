@@ -195,5 +195,5 @@ source /usr/share/doc/fzf/examples/completion.bash
 export DENO_INSTALL="/home/diaz/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
-neofetch
+fastfetch
 
