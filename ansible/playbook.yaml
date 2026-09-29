@@ -1,0 +1,12 @@
+- name: Configure machines
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Run system package tasks
+      ansible.builtin.include_tasks: tasks/packages.yaml
+      tags: packages
+
+    - name: Run Neovim installation tasks
+      ansible.builtin.include_tasks: tasks/neovim.yaml
+      tags: neovim

@@ -1,0 +1,31 @@
+---
+- name: Ensure local bin directory exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ ansible_env.HOME }}/.local/bin"
+    - "{{ ansible_env.HOME }}/.local/opt"
+
+- name: Determine Neovim architecture suffix
+  ansible.builtin.set_fact:
+    neovim_arch: >-
+      {%- if ansible_system == 'Darwin' -%}
+        macos-{{ 'arm64' if ansible_architecture == 'arm64' else 'x86_64' }}
+      {%- elif ansible_system == 'Linux' -%}
+        linux-{{ 'arm64' if ansible_architecture == 'aarch64' else 'x86_64' }}
+      {%- endif -%}
+
+- name: Download and extract Neovim release tarball
+  ansible.builtin.unarchive:
+    src: "https://github.com/neovim/neovim/releases/download/stable/nvim-{{ neovim_arch }}.tar.gz"
+    dest: "{{ ansible_env.HOME }}/.local/opt"
+    creates: "{{ ansible_env.HOME }}/.local/opt/nvim-{{ neovim_arch }}"
+    remote_src: true
+
+- name: Symlink Neovim binary to ~/.local/bin
+  ansible.builtin.file:
+    src: "{{ ansible_env.HOME }}/.local/opt/nvim-{{ neovim_arch }}/bin/nvim"
+    dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
+    state: link
