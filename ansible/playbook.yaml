@@ -12,6 +12,6 @@
       ansible.builtin.import_tasks: tasks/dotdrop.yaml
       tags: dotfiles
 
-    # - name: Run Neovim installation tasks
-    #   ansible.builtin.include_tasks: tasks/neovim.yaml
-    #   tags: neovim
+    - name: Run Neovim installation tasks
+      ansible.builtin.import_tasks: tasks/neovim.yaml
+      tags: neovim

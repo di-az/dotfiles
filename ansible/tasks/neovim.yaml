@@ -5,27 +5,53 @@
     state: directory
     mode: '0755'
   loop:
-    - "{{ ansible_env.HOME }}/.local/bin"
-    - "{{ ansible_env.HOME }}/.local/opt"
+    - "{{ ansible_facts.env.HOME }}/.local/bin"
+    - "{{ ansible_facts.env.HOME }}/.local/opt"
 
-- name: Determine Neovim architecture suffix
+- name: Determine Neovim archive and folder names
   ansible.builtin.set_fact:
-    neovim_arch: >-
-      {%- if ansible_system == 'Darwin' -%}
-        macos-{{ 'arm64' if ansible_architecture == 'arm64' else 'x86_64' }}
-      {%- elif ansible_system == 'Linux' -%}
-        linux-{{ 'arm64' if ansible_architecture == 'aarch64' else 'x86_64' }}
+  # The file you download from GitHub releases
+    neovim_archive_arch: >-
+      {%- if ansible_facts.system == 'Darwin' -%}
+        macos-{{ 'arm64' if ansible_facts.architecture == 'arm64' else 'x86_64' }}
+      {%- elif ansible_facts.system == 'Linux' -%}
+        {{ 'linux-arm64' if ansible_facts.architecture == 'aarch64' else 'linux64' }}
       {%- endif -%}
+  # The actual folder name created inside ~/.local/opt after extraction
+    neovim_folder_name: >-
+      {%- if ansible_facts.system == 'Darwin' -%}
+        nvim-macos-{{ 'arm64' if ansible_facts.architecture == 'arm64' else 'x86_64' }}
+      {%- elif ansible_facts.system == 'Linux' -%}
+        {{ 'nvim-linux-arm64' if ansible_facts.architecture == 'aarch64' else 'nvim-linux64' }}
+      {%- endif -%}
+
+- name: Download and extract Neovim on macOS (using native BSD tar)
+  ansible.builtin.shell: |
+    if [ ! -d "{{ ansible_facts.env.HOME }}/.local/opt/{{ neovim_folder_name }}" ]; then
+      curl -sL "https://github.com/neovim/neovim/releases/download/stable/nvim-{{ neovim_archive_arch }}.tar.gz" -o /tmp/nvim.tar.gz
+      tar -xzf /tmp/nvim.tar.gz -C "{{ ansible_facts.env.HOME }}/.local/opt"
+      rm -f /tmp/nvim.tar.gz
+    fi
+  when: ansible_facts.system == 'Darwin'
+  changed_when: true
 
 - name: Download and extract Neovim release tarball
   ansible.builtin.unarchive:
-    src: "https://github.com/neovim/neovim/releases/download/stable/nvim-{{ neovim_arch }}.tar.gz"
-    dest: "{{ ansible_env.HOME }}/.local/opt"
-    creates: "{{ ansible_env.HOME }}/.local/opt/nvim-{{ neovim_arch }}"
+    src: "https://github.com/neovim/neovim/releases/download/stable/nvim-{{ neovim_archive_arch }}.tar.gz"
+    dest: "{{ ansible_facts.env.HOME }}/.local/opt"
+    creates: "{{ ansible_facts.env.HOME }}/.local/opt/{{ neovim_folder_name }}"
     remote_src: true
+  when: ansible_facts.system == 'Linux'
 
 - name: Symlink Neovim binary to ~/.local/bin
   ansible.builtin.file:
-    src: "{{ ansible_env.HOME }}/.local/opt/nvim-{{ neovim_arch }}/bin/nvim"
-    dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
+    src: "{{ ansible_facts.env.HOME }}/.local/opt/{{ neovim_folder_name }}/bin/nvim"
+    dest: "{{ ansible_facts.env.HOME }}/.local/bin/nvim"
     state: link
+
+
+# - name: Symlink Neovim binary to ~/.local/bin
+#   ansible.builtin.file:
+#     src: "{{ ansible_env.HOME }}/.local/opt/nvim-{{ neovim_arch }}/bin/nvim"
+#     dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
+#     state: link
