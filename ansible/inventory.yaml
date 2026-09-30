@@ -1,0 +1,17 @@
+all:
+  vars:
+    dotdrop_profile: default
+
+macos:
+  hosts:
+    macbook:
+      ansible_connection: local
+      target_os: Darwin
+      dotdrop_profile: diaz.local
+
+linux:
+  hosts:
+    linux-machine:
+      ansible_connection: local
+      target_os: Linux
+      dotdrop_profile: diaz
