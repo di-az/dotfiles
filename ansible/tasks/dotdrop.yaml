@@ -1,0 +1,16 @@
+---
+- name: Install dotdrop
+  ansible.builtin.import_tasks: install-package.yaml
+  vars:
+    packages:
+      - dotdrop
+
+- name: List dotdrop_profile and playbook_dir
+  ansible.builtin.debug:
+    msg: "Installing dotdrop with profile {{ dotdrop_profile }} to folder {{ playbook_dir }}/.."
+
+- name: Install dotfiles via dotdrop
+  ansible.builtin.command:
+    cmd: "dotdrop install --profile \"{{ dotdrop_profile }}\""
+    chdir: "{{ playbook_dir }}/.."
+  changed_when: true
