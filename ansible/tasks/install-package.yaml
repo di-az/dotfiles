@@ -1,0 +1,14 @@
+---
+- name: Install packages on macOS
+  community.general.homebrew:
+    name: "{{ packages }}"
+    state: present
+  when: ansible_facts.system == "Darwin"
+
+- name: Install packages on Linux
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: true
+  when: ansible_facts.system == "Linux"

@@ -1,4 +1,5 @@
-- name: Set package list
+---
+- name: Set package lists
   ansible.builtin.set_fact:
     common_packages:
       - git
@@ -7,16 +8,13 @@
       - fzf
       - python3
       - ripgrep
-    os_packages: "{{ ['go', 'node'] if ansible_system == 'Darwin' else ['golang', 'nodejs', 'npm'] }}"
+    os_packages: "{{ ['go', 'node'] if ansible_facts.system == 'Darwin' else ['golang', 'nodejs', 'npm'] }}"
 
-- name: Install packages on macOS via homebrew
-  community.general.homebrew:
-    name: "{{ common_packages + os_packages }}"
-  when: ansible_system == "Darwin"
+- name: Show compiled package list
+  ansible.builtin.debug:
+    msg: "Installing the following packages: {{ common_packages + os_packages }} | for {{ ansible_facts.system }}"
 
-- name: Install Git and Tmux on Linux via APT
-  become: true
-  ansible.builtin.apt:
-    name: "{{ common_packages + os_packages }}"
-    update_cache: true
-  when: ansible_system == "Linux"
+- name: Run generic package installer
+  ansible.builtin.import_tasks: install-package.yaml
+  vars:
+    packages: "{{ common_packages + os_packages }}"
