@@ -48,10 +48,3 @@
     src: "{{ ansible_facts.env.HOME }}/.local/opt/{{ neovim_folder_name }}/bin/nvim"
     dest: "{{ ansible_facts.env.HOME }}/.local/bin/nvim"
     state: link
-
-
-# - name: Symlink Neovim binary to ~/.local/bin
-#   ansible.builtin.file:
-#     src: "{{ ansible_env.HOME }}/.local/opt/nvim-{{ neovim_arch }}/bin/nvim"
-#     dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
-#     state: link
