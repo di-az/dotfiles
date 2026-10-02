@@ -12,6 +12,7 @@ compinit
 source "$HOME/.zsh/environment.zsh"
 source "$HOME/.zsh/alias.zsh"
 source "$HOME/.zsh/completion.zsh"
+source "$HOME/.zsh/mise.zsh"
 
 # fzf
 source <(fzf --zsh)

@@ -6,3 +6,7 @@ export PATH="$(go env GOPATH)/bin:$PATH"
 
 # Editor
 export EDITOR="$HOME/bin/nvim-macos-arm64-v0.11.5/bin/nvim"
+
+# Add mise to path
+eval "$(mise activate zsh)"
+# export PATH="$HOME/.local/share/mise/shims:$PATH"
