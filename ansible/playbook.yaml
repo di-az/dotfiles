@@ -8,10 +8,10 @@
       ansible.builtin.import_tasks: tasks/packages.yaml
       tags: packages
 
-    - name: Run dotdrop
+    - name: Install dotdrop
       ansible.builtin.import_tasks: tasks/dotdrop.yaml
       tags: dotfiles
 
-    - name: Run Neovim installation tasks
+    - name: Install neovim
       ansible.builtin.import_tasks: tasks/neovim.yaml
       tags: neovim
