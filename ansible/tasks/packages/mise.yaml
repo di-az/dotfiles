@@ -1,0 +1,17 @@
+---
+- name: Download Mise installer
+  ansible.builtin.get_url:
+    url: https://mise.run
+    dest: /tmp/mise-install.sh
+    mode: "0755"
+
+- name: Install Mise
+  ansible.builtin.command:
+    cmd: /tmp/mise-install.sh
+    creates: "{{ ansible_facts['user_dir'] }}/.local/bin/mise"
+
+- name: Install Node.js LTS through Mise
+  ansible.builtin.command:
+    cmd: "{{ ansible_facts.user_dir }}/.local/bin/mise use --global node@lts"
+  environment:
+    PATH: "{{ ansible_facts.user_dir }}/.local/bin:{{ ansible_facts.env.PATH }}"

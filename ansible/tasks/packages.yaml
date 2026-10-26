@@ -6,15 +6,14 @@
       - tmux
       - tmuxinator
       - fzf
-      - python3
       - ripgrep
-    os_packages: "{{ ['go', 'node'] if ansible_facts.system == 'Darwin' else ['golang', 'nodejs', 'npm'] }}"
+      - tree
 
 - name: Show compiled package list
   ansible.builtin.debug:
-    msg: "Installing the following packages: {{ common_packages + os_packages }} | for {{ ansible_facts.system }}"
+    msg: "Installing the following packages: {{ common_packages }} | for {{ ansible_facts.system }}"
 
 - name: Run generic package installer
   ansible.builtin.import_tasks: install-package.yaml
   vars:
-    packages: "{{ common_packages + os_packages }}"
+    packages: "{{ common_packages }}"

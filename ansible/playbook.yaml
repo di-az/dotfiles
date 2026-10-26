@@ -15,3 +15,7 @@
     - name: Install neovim
       ansible.builtin.import_tasks: tasks/neovim.yaml
       tags: neovim
+
+    - name: Install mise-en-place
+      ansible.builtin.import_tasks: tasks/development.yaml
+      tags: mise
