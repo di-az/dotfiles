@@ -19,4 +19,3 @@
     - name: Install neovim
       ansible.builtin.import_tasks: tasks/neovim.yaml
       tags: neovim
-
