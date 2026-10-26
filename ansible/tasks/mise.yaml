@@ -8,10 +8,14 @@
 - name: Install Mise
   ansible.builtin.command:
     cmd: /tmp/mise-install.sh
-    creates: "{{ ansible_facts['user_dir'] }}/.local/bin/mise"
+    creates: "{{ ansible_facts.user_dir}}/.local/bin/mise"
 
-- name: Install Node.js LTS through Mise
+- name: Install Python, Node.js, and Go through Mise
   ansible.builtin.command:
-    cmd: "{{ ansible_facts.user_dir }}/.local/bin/mise use --global node@lts"
+    cmd: "{{ ansible_facts.user_dir }}/.local/bin/mise use --global {{ item }}"
   environment:
     PATH: "{{ ansible_facts.user_dir }}/.local/bin:{{ ansible_facts.env.PATH }}"
+  loop:
+    - python@3
+    - node@lts
+    - go@latest

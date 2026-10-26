@@ -4,6 +4,10 @@
   gather_facts: true
 
   tasks:
+    - name: Install mise-en-place
+      ansible.builtin.import_tasks: tasks/mise.yaml
+      tags: mise
+
     - name: Run system package tasks
       ansible.builtin.import_tasks: tasks/packages.yaml
       tags: packages
@@ -16,6 +20,3 @@
       ansible.builtin.import_tasks: tasks/neovim.yaml
       tags: neovim
 
-    - name: Install mise-en-place
-      ansible.builtin.import_tasks: tasks/development.yaml
-      tags: mise
