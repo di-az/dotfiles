@@ -63,6 +63,7 @@ profiles:
     - d_nvim
     - f_gitconfig
     - f_git-prompt.sh
+    - f_tmux.conf
     - f_wallpaper
   diaz.local:
     dotfiles:
