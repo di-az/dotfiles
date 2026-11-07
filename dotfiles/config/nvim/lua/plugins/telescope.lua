@@ -51,7 +51,20 @@ return {
 		telescope.load_extension("fzf")
 		telescope.load_extension("file_browser")
 
-		vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
+		vim.keymap.set("n", "<leader>pf", function()
+			builtin.find_files({
+				hidden = true,
+				no_ignore = true,
+				file_ignore_patterns = {
+					"^%.git/",
+					"^node_modules/",
+					"^vendor/",
+					"^dist/",
+					"^build/",
+				},
+			})
+		end, { desc = "Find all files" })
+		vim.keymap.set("n", "<leader>pF", builtin.find_files, { desc = "Find files (respect ignore)" })
 		vim.keymap.set("n", "<C-p>", builtin.git_files, {})
 		vim.keymap.set("n", "<leader>pg", builtin.live_grep, {})
 		vim.keymap.set("n", "<leader>ps", function()
